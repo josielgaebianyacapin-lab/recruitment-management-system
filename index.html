@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AMIE — AmCham's Intelligent Employee Assistant</title>
+    <meta name="description" content="AMIE: AmCham's Intelligent Employee Assistant. Full-stack AI-powered HR management, employee support, policy intelligence, recruitment, onboarding, performance analysis, and training platform for the American Chamber of Commerce of the Philippines." />
+    <meta property="og:title" content="AMIE — AmCham's Intelligent Employee Assistant" />
+    <meta property="og:description" content="AMIE: AmCham's Intelligent Employee Assistant. Full-stack AI-powered HR management, employee support, policy intelligence, recruitment, onboarding, performance analysis, and training platform for the American Chamber of Commerce of the Philippines." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/jpeg" href="/amcham-logo.jpg" />
+    <link rel="apple-touch-icon" href="/amcham-logo.jpg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#082653" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('amie_theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

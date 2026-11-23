@@ -1,0 +1,108 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "AmCham personnel or external applicant account record with PBKDF2 hashed password.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique user ID" },
+        "name": { "type": "string", "description": "Full name of the user" },
+        "email": { "type": "string", "description": "Unique normalized email address" },
+        "role": { "type": "string", "description": "Role (APPLICANT, EMPLOYEE, MANAGER, HR_PERSONNEL, HR_ADMINISTRATOR, SYSTEM_ADMINISTRATOR)" },
+        "department": { "type": "string", "description": "Assigned department" },
+        "jobTitle": { "type": "string", "description": "Designated job title" },
+        "password": { "type": "string", "description": "Cryptographically hashed PBKDF2 password" },
+        "accountStatus": { "type": "string", "description": "Status (ACTIVE, SUSPENDED, PENDING_APPROVAL)" },
+        "verificationStatus": { "type": "string", "description": "Verification status (VERIFIED, UNVERIFIED)" },
+        "isEmailVerified": { "type": "boolean", "description": "Flag indicating email verification" },
+        "joinedDate": { "type": "string", "description": "ISO date string when user joined" }
+      },
+      "required": ["id", "name", "email", "role"]
+    },
+    "Session": {
+      "title": "Session",
+      "description": "Active session token and authentication credentials.",
+      "type": "object",
+      "properties": {
+        "token": { "type": "string", "description": "Secure cryptographic session token" },
+        "userId": { "type": "string", "description": "ID of authenticated user" },
+        "createdAt": { "type": "number", "description": "Timestamp ms when session was created" },
+        "expiresAt": { "type": "number", "description": "Timestamp ms when session expires" }
+      },
+      "required": ["token", "userId", "createdAt", "expiresAt"]
+    },
+    "JobApplication": {
+      "title": "JobApplication",
+      "description": "Job application submitted by an applicant for an open AmCham vacancy.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique application identifier" },
+        "referenceNumber": { "type": "string", "description": "Unique public reference number (e.g. APP-2026-XXXXX)" },
+        "vacancyId": { "type": "string", "description": "Referenced recruitment vacancy ID" },
+        "jobTitle": { "type": "string", "description": "Target job title" },
+        "fullName": { "type": "string", "description": "Applicant full name" },
+        "email": { "type": "string", "description": "Applicant contact email" },
+        "phone": { "type": "string", "description": "Applicant contact phone number" },
+        "status": { "type": "string", "description": "Application status (SUBMITTED, UNDER_REVIEW, SHORTLISTED, INTERVIEW, OFFERED, HIRED, NOT_SELECTED)" },
+        "accessToken": { "type": "string", "description": "Secret token for tracking application status" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of application submission" }
+      },
+      "required": ["id", "referenceNumber", "vacancyId", "fullName", "email", "status"]
+    },
+    "ApplicationDocument": {
+      "title": "ApplicationDocument",
+      "description": "Document requirement uploaded by an applicant or requested by HR.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique document identifier" },
+        "applicationId": { "type": "string", "description": "Associated job application ID" },
+        "applicantId": { "type": "string", "description": "Associated applicant user ID" },
+        "documentType": { "type": "string", "description": "Type of document (RESUME, DIPLOMA, GOVERNMENT_ID, OTHER)" },
+        "title": { "type": "string", "description": "Document or requirement title" },
+        "fileName": { "type": "string", "description": "Internal stored filename in Firebase Storage" },
+        "originalName": { "type": "string", "description": "Original file name uploaded by user" },
+        "storagePath": { "type": "string", "description": "Path in Firebase Storage bucket" },
+        "fileSizeBytes": { "type": "number", "description": "File size in bytes" },
+        "status": { "type": "string", "description": "Status (SUBMITTED, VERIFIED, REJECTED, REPLACEMENT_REQUESTED)" }
+      },
+      "required": ["id", "applicationId", "applicantId", "storagePath"]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "In-app notification sent to employees, applicants, or HR.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique notification ID" },
+        "userId": { "type": "string", "description": "Target user ID" },
+        "title": { "type": "string", "description": "Notification title" },
+        "message": { "type": "string", "description": "Notification content" },
+        "type": { "type": "string", "description": "Category (SYSTEM, ONBOARDING, PERFORMANCE, LEAVE)" },
+        "read": { "type": "boolean", "description": "Read status flag" },
+        "createdAt": { "type": "string", "description": "ISO timestamp of notification creation" }
+      },
+      "required": ["id", "userId", "title", "message", "read"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User accounts collection storing verified personnel and applicant profiles."
+    },
+    "/sessions/{token}": {
+      "schema": "Session",
+      "description": "Active user sessions validated for authenticated routes."
+    },
+    "/job_applications/{applicationId}": {
+      "schema": "JobApplication",
+      "description": "Recruitment applications for published vacancies."
+    },
+    "/application_documents/{documentId}": {
+      "schema": "ApplicationDocument",
+      "description": "Applicant documents metadata linked to files in Firebase Storage."
+    },
+    "/notifications/{notificationId}": {
+      "schema": "AppNotification",
+      "description": "In-app and system notifications."
+    }
+  }
+}

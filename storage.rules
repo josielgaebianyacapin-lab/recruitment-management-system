@@ -1,0 +1,15 @@
+rules_version = '2';
+
+// Zero-Trust Firebase Storage Rules for AMIE Applicant & HR Documents
+// All uploaded documents (resumes, diplomas, government IDs, certificates) are private.
+// Files are served and downloaded strictly through authenticated Express API endpoints
+// (/api/applicant/documents/:docId/file, /api/recruitment/applications/:appId/documents/:docId/file)
+// where ownership and HR privileges are checked. Direct unauthenticated client access is disabled.
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
